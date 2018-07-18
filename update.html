@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <Meta charset = "uft-8">
+    <title> Singing up for The Event </title>
+    <link rel="stylesheet" href="index.css">
+
+</head>
+<body>
+<h1 align="center"> UPDATE A USER</h1>
+<div id="form">
+<form  action = "/update" method = "post">
+    <div>
+        <label> ID of the User to be Updated:</label>
+        <input type="text" id="id" name="_id">
+    </div>
+
+    <div>
+        <label for="name"> Name: </label>
+        <input type="text" id="name" name="user_name">
+    </div>
+
+    <div>
+        <label for="mail"> E-mail: </label>
+        <input type="email" id="mail" name="user_mail">
+    </div>
+
+    <div>
+        <label for="phone"> Phone:</label>
+        <input type="number" id="phone" name="user_phone">
+    </div>
+
+    <div class="button">
+        <button type="submit">Update!</button>
+    </div>
+
+    <div class="button">
+        <button type="Reset">Reset!</button>
+    </div>
+</form>
+</div>
+</body>
+</html>

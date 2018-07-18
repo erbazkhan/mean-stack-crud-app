@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <Meta charset = "uft-8">
+    <title> Adding Users </title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+
+</head>
+<body>
+<h1 align="center"> ADD A USER</h1>
+<div id="form">
+<form  action = "/adduser" method = "post">
+    <div>
+        <label for="name"> Name: </label>
+        <input type="text" id="name" name="user_name">
+    </div>
+
+    <div>
+        <label for="mail"> E-mail: </label>
+        <input type="email" id="mail" name="user_mail">
+    </div>
+
+    <div>
+        <label for="phone"> Phone:</label>
+        <input type="number" id="phone" name="user_phone"></input>
+    </div>
+
+    <div class="button">
+        <button type="submit">Register!</button>
+    </div>
+
+    <div class="button">
+        <button type="Reset">Reset!</button>
+    </div>
+</form>
+</div>
+</body>
+</html>
