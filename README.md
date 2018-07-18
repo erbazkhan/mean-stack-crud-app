@@ -25,4 +25,4 @@ The URL endpoints and functionalities related with them is following.
 
 **DIRECTORY INFO:**
 
-The server file is named as NewServer.js. All the *.html*, *.css* and *.js* files are present in home/main directory except models. Models are present in *models* folder.
+The server file is named as *NewServer.js*. All the *.html*, *.css* and *.js* files are present in home/main directory except models. Models are present in *models* folder.
