@@ -9,7 +9,7 @@ It has sign up and login options for admins. The URL endpoints and functionaliti
 
 *'/login'* - Admin logs in.
 
-**C.R.U.D:**
+**C.R.U.D. :**
 
 The URL endpoints and functionalities related with them is following.
 
