@@ -7,7 +7,7 @@ It has sign up and login options for admins. The URL endpoints and functionaliti
 
 *'/signup'* - A new admin registers here.
 
-*'/login'* - Admin logs in. **(Not working, failure redirect happens everytime we try to login)**
+*'/login'* - Admin logs in. **(Authentication is successful but we can still get access via URL. Works if we manually check authentification for each route.)**
 
 **C.R.U.D. :**
 
