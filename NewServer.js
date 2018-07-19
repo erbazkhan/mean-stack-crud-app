@@ -68,9 +68,10 @@ const url = 'mongodb://localhost:27017/userDB';
 mongoose.connect(url);
 
 //============================ HOME =====================================
-app.get("/", function (req, res) {
-    const homePath = path.join(__dirname, '/home.html');
-    res.sendFile(homePath);
+app.get("/", ensureAuthenticated, function (req, res) {
+    console.log(ensureAuthenticated);
+    //const homePath = path.join(__dirname, '/index.html');
+    res.render('index');
 });
 
 //************************* A D M I N ***********************************
@@ -102,7 +103,6 @@ function SignUpCallback(req, res){
     req.checkBody('password', 'Password is required').notEmpty();
     req.checkBody('passwordconf', 'Passwords do not match').equals(req.body.password);
 
-
     var error = req.validationErrors();
 
     if (error) {
@@ -114,7 +114,6 @@ function SignUpCallback(req, res){
             adminEmail: adminEmail,
             password: password
         });
-        console.log('hey')
         console.log(newAdmin);
 
         Admin.createAdmin(newAdmin);
@@ -130,17 +129,18 @@ app.get("/login", function (req, res) {
     res.sendFile(loginPath);
 });
 
-passport.use(new localStrategy(
+passport.use(new localStrategy({
+        usernameField: 'adminUsername',
+        passwordField: 'password',
+        session: false
+    },
     function (adminUsername, password, done) {
         Admin.getAdminByAdminUsername(adminUsername, function (err, admin) {
             if (err) throw err;
             console.log('getAdmin called');
             if (!admin) {
-                console.log('Not admin');
-                return done(null, false, function(req, res)
-                {
-                    console.log('Missing credentials!');
-                });
+                console.log('Admin Not Found');
+                return done(null, false);
             }
 
             Admin.comparePassword(password, admin.password, function (err, isMatch) {
@@ -149,10 +149,8 @@ passport.use(new localStrategy(
                 if (isMatch) {
                     return done(null, admin);
                 } else {
-                    return done(null, false, function(req, res)
-                    {
-                        console.log('Missing credentials!');
-                    });
+                    console.log('Wrong Password!');
+                    return done(null, false);
                 }
             });
         });
@@ -168,24 +166,33 @@ passport.deserializeUser(function (id, done) {
     });
 });
 
-app.post('/login', passport.authenticate('local', { successRedirect: '/',
-        failureRedirect: '/login'}),
-    function(req, res){
-        if (failureRedirect) console.log("login");
-
+app.post('/login', passport.authenticate('local', {
+        failureRedirect: '/login'}), function(req, res){
         console.log('login called');
         res.redirect('/');
+    });
+
+app.get('/logout', function(req,res){
+    req.logout();
+    res.redirect('/login');
+});
+
+function ensureAuthenticated(req, res, next){
+    console.log(req.isAuthenticated());
+    if (req.isAuthenticated()) {
+        return next();
+    } else {
+        res.redirect('/login');
     }
-);
+}
 
 //************************** C. R. U. D. ********************************
 
 //===============================POST====================================
-app.get("/adduser", function (req, res) {
-    const homePath = path.join(__dirname, '/adduser.html');
-    res.sendFile(homePath);
+app.get("/adduser", ensureAuthenticated, function (req, res) {
+    const addPath = path.join(__dirname, '/adduser.html');
+    res.sendFile(addPath);
 });
-
 function PostCallback(req, res) {
     const userData = new User(req.body);
     //console.log(userData);
@@ -253,7 +260,7 @@ function updateCallback(req, res) {
     console.log(item);
 
     const id = objectId(ID);
-    console.log(id);
+    //console.log(id);
 
     mongo.connect(url, function (err, db) {
         if (err) throw err;
