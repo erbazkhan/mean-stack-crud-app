@@ -1,25 +1,25 @@
 # C.R.U.D-app-with-Authentication
-It is a basic C.R.U.D. app made with node.js., express and mongoDB. For authentication passport and bcryptjs. We are using port 8888.
+It is a basic C.R.U.D. app made with *nodejs*, *express* and *mongoDB*. We are using port 8888.
 
 **AUTHENTICAION:**
 
-It has sign up and login options for admins. The URL endpoints and functionalities related with them is following.
+`bcryptjs` was used for hashing the passwords, which were then stored in database. `passport-local` was used for authentication. After validation `express` middleware was used to authenticate the whole app. The URL endpoints and functionalities related with them is following.
 
 *'/signup'* - A new admin registers here.
 
-*'/login'* - Admin logs in. **(Authentication is successful but we can still get access via URL. Works if we manually check authentification for each route.)**
+*'/login'* - Admin logs in. Each request redirects to this URL if NOT authenticated.
 
 **C.R.U.D. :**
 
-The URL endpoints and functionalities related with them is following.
+`express` was used as the middleware. The URL endpoints and functionalities related with them is following.
 
 *'/'* - This is the home page containing CRUD menu. 4 button button are present which redirects to following pages which contain relevant forms.
 
-*'/adduser'* - A user (data) is added (POST)
+*'/adduser'* - A user (data) is added (PUT)
 
 *'/users'* - All the users are retrieved (GET)
 
-*'/update'* - A user is updated here (PUT)
+*'/update'* - A user is updated here (POST)
 
 *'/delete'* - A user is deleted here. (DELETE)
 
