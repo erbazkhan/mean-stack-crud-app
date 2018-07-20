@@ -3,7 +3,7 @@ const app = express();
 const path = require('path');
 const mongo = require('mongodb').MongoClient;
 const objectId = require('mongodb').ObjectID;
-const Assert = require('assert');
+const assert = require('assert');
 //const bcrypt = require('bcryptjs');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
@@ -54,29 +54,25 @@ app.use(expressValidator({
 
 //Connect Flash
 app. use(flash());
-app.use(function (req, res, next) {
-    res.locals.success_msg = req.flash('success_msg');
-    res.locals.error_msg  =req.flash('error_msg');
-    res.locals.error = req.flash('error');
-    next();
-});
+// app.use(function (req, res, next) {
+//     res.locals.success_msg = req.flash('success_msg');
+//     res.locals.error_msg  =req.flash('error_msg');
+//     res.locals.error = req.flash('error');
+//     next();
+// });
 
 app.use(express.static(__dirname)); // For Loading all the files present in Directory
+//app.use(ensureAuthenticated);
 
 mongoose.Promise = global.Promise;
 const url = 'mongodb://localhost:27017/userDB';
 mongoose.connect(url);
 
-//============================ HOME =====================================
-app.get("/", ensureAuthenticated, function (req, res) {
-    console.log(ensureAuthenticated);
-    //const homePath = path.join(__dirname, '/index.html');
-    res.render('index');
-});
 
 //************************* A D M I N ***********************************
 
 //========================== SIGN-UP ====================================
+
 app.get("/signup", function (req, res) {
     const signUpPath = path.join(__dirname, '/sign-up.html');
     res.sendFile(signUpPath);
@@ -127,6 +123,7 @@ app.post('/signup', SignUpCallback);
 app.get("/login", function (req, res) {
     const loginPath = path.join(__dirname, '/login.html');
     res.sendFile(loginPath);
+    console.log(req.url);
 });
 
 passport.use(new localStrategy({
@@ -178,7 +175,7 @@ app.get('/logout', function(req,res){
 });
 
 function ensureAuthenticated(req, res, next){
-    console.log(req.isAuthenticated());
+    console.log(req.isAuthenticated);
     if (req.isAuthenticated()) {
         return next();
     } else {
@@ -186,10 +183,13 @@ function ensureAuthenticated(req, res, next){
     }
 }
 
+app.use(ensureAuthenticated);
+
+
 //************************** C. R. U. D. ********************************
 
 //===============================POST====================================
-app.get("/adduser", ensureAuthenticated, function (req, res) {
+app.get("/adduser", function (req, res) {
     const addPath = path.join(__dirname, '/adduser.html');
     res.sendFile(addPath);
 });
@@ -218,9 +218,9 @@ app.get("/users", function(req, res) {
             assert.equal(null, err);
             result.push(doc);
         }, function () {
-            //console.log(result);
             db.close();
-            res.json(allData);
+
+            res.json(result);
         });
     });
 });
