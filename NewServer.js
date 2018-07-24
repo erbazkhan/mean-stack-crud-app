@@ -4,7 +4,6 @@ const path = require('path');
 const mongo = require('mongodb').MongoClient;
 const objectId = require('mongodb').ObjectID;
 const assert = require('assert');
-//const bcrypt = require('bcryptjs');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 const expressHandlebars = require('express-handlebars');
@@ -15,7 +14,6 @@ const localStrategy = require('passport-local').Strategy;
 const mongoose = require('mongoose');
 const User = require('./models/user.js');
 const Admin = require('./models/admin');
-
 
 app.engine('handlebars', expressHandlebars({defaultLayout:'layout'}));
 app.set('view engine', 'handlebars');
@@ -35,7 +33,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-//express Validator
 app.use(expressValidator({
     errorFormatter: function(param, msg, value) {
         var namespace = param.split('.'),
@@ -52,17 +49,7 @@ app.use(expressValidator({
     }
 }));
 
-//Connect Flash
-app. use(flash());
-// app.use(function (req, res, next) {
-//     res.locals.success_msg = req.flash('success_msg');
-//     res.locals.error_msg  =req.flash('error_msg');
-//     res.locals.error = req.flash('error');
-//     next();
-// });
-
 app.use(express.static(__dirname)); // For Loading all the files present in Directory
-//app.use(ensureAuthenticated);
 
 mongoose.Promise = global.Promise;
 const url = 'mongodb://localhost:27017/userDB';
@@ -74,12 +61,13 @@ mongoose.connect(url);
 //========================== SIGN-UP ====================================
 
 app.get("/signup", function (req, res) {
+    console.log(__dirname+' mmmm');
     const signUpPath = path.join(__dirname, '/sign-up.html');
     res.sendFile(signUpPath);
 });
 function SignUpCallback(req, res){
     // if (req.body.adminUsername && req.body.adminEmail && req.body.password && req.body.passwordconf) {
-    //     const adminData = new Admin(req.body);
+     //    const adminData = new Admin(req.body);
     //     console.log(adminData);
     //     adminData.save()
     //         .then(admin => {
@@ -93,24 +81,27 @@ function SignUpCallback(req, res){
     const password = req.body.password;
     const passwordconf = req.body.passwordconf;
 
+    //console.log(adminData);
+
     req.checkBody('adminUsername', 'adminUsername is required').notEmpty();
     req.checkBody('adminEmail', 'adminEmail is required').notEmpty();
     req.checkBody('adminEmail', 'adminEmail is not valid').isEmail();
     req.checkBody('password', 'Password is required').notEmpty();
     req.checkBody('passwordconf', 'Passwords do not match').equals(req.body.password);
 
+
     var error = req.validationErrors();
 
     if (error) {
         res.send(error);
-        res.redirect('/signup');
+        //res.redirect('/signup');
     } else {
         const newAdmin = new Admin({
             adminUsername: adminUsername,
             adminEmail: adminEmail,
             password: password
         });
-        console.log(newAdmin);
+        //console.log(newAdmin);
 
         Admin.createAdmin(newAdmin);
         //res.json('You are registered and can now login!')
@@ -175,8 +166,8 @@ app.get('/logout', function(req,res){
 });
 
 function ensureAuthenticated(req, res, next){
-    console.log(req.isAuthenticated);
     if (req.isAuthenticated()) {
+    	console.log('Authenticated');
         return next();
     } else {
         res.redirect('/login');
@@ -239,7 +230,7 @@ function deleteCallback(req, res) {
         dbo.collection("users").deleteOne({user_name: myQuery.user_name}, function (err) {
             if (err) throw err;
             else
-                res.send("item deleted from database!");
+                res.send("Item deleted from database!");
         });
     });
 }
