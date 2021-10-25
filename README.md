@@ -1,5 +1,5 @@
 # C.R.U.D-app-with-Authentication
-A basic C.R.U.D. app made using MEAN Stack, in which all four types of requests are entertained using HTML forms. For front end, simple HTML and CSS were used intead of Angular.
+A basic C.R.U.D. app made using MEAN Stack, in which all four types of requests are entertained using forms. For front end, simple HTML and CSS were used intead of Angular.
 
 **AUTHENTICAION:**
 
