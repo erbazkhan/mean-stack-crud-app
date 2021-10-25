@@ -1,5 +1,5 @@
 # C.R.U.D-app-with-Authentication
-It is a basic C.R.U.D. app made with *nodejs*, *express* and *mongoDB*. We are using port 8888.
+A basic C.R.U.D. app made using MEAN Stack, in which all four types of requests are entertained using HTML forms. For front end, simple HTML and CSS were used intead of Angular.
 
 **AUTHENTICAION:**
 
@@ -25,4 +25,4 @@ It is a basic C.R.U.D. app made with *nodejs*, *express* and *mongoDB*. We are u
 
 **DIRECTORY INFO:**
 
-The server file is named as *NewServer.js*. All the *.html*, *.css* and *.js* files are present in home/main directory except models. Models are present in *models* folder.
+The server file is named as *NewServer.js*. All the *.html*, *.css* and *.js* files are present in home/main directory except models. Models are present in *models* directory.
